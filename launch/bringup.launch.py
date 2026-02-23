@@ -1,64 +1,79 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
-from launch.substitutions import PathJoinSubstitution
-from launch_ros.substitutions import FindPackageShare
+from ament_index_python.packages import get_package_share_directory
+import os
 
 
 def generate_launch_description():
 
-    use_sim_time = True
+    pkg_dir = get_package_share_directory('diff_drive_robot')
 
-    diff_drive_pkg = FindPackageShare('diff_drive_robot')
-    nav2_pkg = FindPackageShare('nav2_bringup')
+    # ---------------- Robot description ----------------
+    urdf_path = os.path.join(pkg_dir, 'urdf', 'robot.urdf')
 
-    # 1Robot + mapping
-    robot_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                diff_drive_pkg,
-                'launch',
-                'robot.launch.py'
-            ])
-        ),
-        launch_arguments={'use_sim_time': 'true'}.items()
-    )
+    with open(urdf_path, 'r') as infp:
+        robot_desc = infp.read()
 
-    # Nav2 bringup
-    nav2_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                nav2_pkg,
-                'launch',
-                'bringup_launch.py'
-            ])
-        ),
-        launch_arguments={
-            'map': '/home/pg/my_map.yaml',
-            'use_sim_time': 'true',
-             'params_file': PathJoinSubstitution([
-                diff_drive_pkg,
-                'config',
-                'nav2_params.yaml'
-                ])
-        }.items()
-    )
+    # ---------------- EKF config ----------------
+    ekf_config = os.path.join(pkg_dir, 'config', 'ekf.yaml')
 
-    # RViz
-    rviz = Node(
-        package='rviz2',
-        executable='rviz2',
-        arguments=[
-            '-d',
-            '/opt/ros/jazzy/share/nav2_bringup/rviz/nav2_default_view.rviz'
-        ],
-        parameters=[{'use_sim_time': use_sim_time}],
+    # ---------------- Nodes ----------------
+    serial_node = Node(
+        package='diff_drive_robot',
+        executable='serial_node',
+        name='serial_node',
         output='screen'
     )
 
+    motor_node = Node(
+        package='diff_drive_robot',
+        executable='motor_node',
+        name='motor_node',
+        output='screen'
+    )
+
+    odom_node = Node(
+        package='diff_drive_robot',
+        executable='odom_node',
+        name='odom_node',
+        output='screen'
+    )
+
+    ekf_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[ekf_config]
+    )
+
+    lidar_node = Node(
+        package='rplidar_ros',
+        executable='rplidar_composition',
+        name='rplidar_node',
+        output='screen',
+        parameters=[{
+            'serial_port': '/dev/ttyUSB1',
+            'serial_baudrate': 115200,
+            'frame_id': 'laser'
+        }]
+    )
+
+    robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
+        parameters=[{
+            'robot_description': robot_desc
+        }]
+    )
+
     return LaunchDescription([
-        robot_launch,
-        nav2_launch,
-        rviz,
+        serial_node,
+        motor_node,
+        odom_node,
+        ekf_node,
+        lidar_node,
+        robot_state_publisher
     ])

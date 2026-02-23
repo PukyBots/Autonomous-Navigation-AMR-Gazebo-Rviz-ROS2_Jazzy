@@ -2,6 +2,12 @@
 
 Simulation for differential drive robots using ROS2 Jazzy and Gazebo Harmonic. This package provides all of the necessary files to get a simulated robot up and running. This includes the urdf, parameters and launch files for a robot with a lidar sensor and tele-operated navigation. More sensors and functionalities will be added in future.
 
+
+<p align="center">
+  <img src="images/display.png" width="500"/>
+</p>
+
+
 ## Branches
 
 This repository has two main branches:
@@ -54,7 +60,7 @@ For the base robot simulation, clone the main branch:
 ```bash
 mkdir -p ros2_ws/src
 cd ros2_ws/src
-git clone https://github.com/adoodevv/diff_drive_robot.git
+git clone https://github.com/PukyBots/Robot-Car-Simulation-with-Gazebo-and-Rviz.git
 cd ..
 colcon build --packages-select diff_drive_robot --symlink-install
 ```
@@ -66,7 +72,7 @@ To use the mapping features, clone the `mapping` branch directly:
 ```bash
 mkdir -p ros2_ws/src
 cd ros2_ws/src
-git clone -b mapping https://github.com/adoodevv/diff_drive_robot.git
+git clone -b mapping https://github.com/PukyBots/Robot-Car-Simulation-with-Gazebo-and-Rviz.git
 cd ..
 colcon build --packages-select diff_drive_robot --symlink-install
 ```
