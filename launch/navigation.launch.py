@@ -57,8 +57,18 @@ def generate_launch_description():
         output='screen'
     )
 
+    motor_node = Node(
+        package='diff_drive_robot',
+        executable='motor_node.py',
+        name='motor_node',
+        output='screen'
+    )
+
+
+
     return LaunchDescription([
         robot_launch,
         nav2_launch,
         rviz,
+        motor_node,
     ])

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
@@ -8,7 +10,7 @@ class MotorNode(Node):
     def __init__(self):
         super().__init__('motor_node')
 
-        self.ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=0.1)
+        self.ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=0.1)
 
         self.sub = self.create_subscription(
             Twist,
@@ -53,3 +55,7 @@ def main():
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()  

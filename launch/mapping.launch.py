@@ -193,6 +193,12 @@ def generate_launch_description():
         }.items()
     )
 
+    motor_node = Node(
+        package='diff_drive_robot',
+        executable='motor_node.py',
+        name='motor_node',
+        output='screen'
+    )
 
     # Launch them all!
     return LaunchDescription([
@@ -209,4 +215,5 @@ def generate_launch_description():
         ekf_node,
         slam_toolbox_launch,
         rviz2,
+        motor_node,
     ])
