@@ -8,13 +8,6 @@ Simulation for differential drive robots using ROS2 Jazzy and Gazebo Harmonic. T
 </p>
 
 
-## Branches
-
-This repository has two main branches:
-
-- **`main`**: Base repository with core robot simulation functionality including URDF, Gazebo simulation, and basic tele-operation
-- **`mapping`**: Extended branch that adds mapping capabilities using SLAM Toolbox and robot localization with Extended Kalman Filter (EKF)
-
 ## Work in progress
 
 The package is still being worked on and in development
@@ -23,7 +16,6 @@ The package is still being worked on and in development
 
 Supported for [Ubuntu 24.04](https://releases.ubuntu.com/noble/) & [ROS2 Jazzy](https://docs.ros.org/en/jazzy/Installation.html) but compatibility with other versions has not been checked.
 
-## Install Required ROS 2 Packages
 
 ### Base Packages (Required for all branches)
 
@@ -39,9 +31,7 @@ sudo apt install -y                         \
    ros-jazzy-teleop-twist-joy 
 ```
 
-### Additional Packages (Required for `mapping` branch)
 
-If you're using the `mapping` branch, also install:
 
 ```bash
 sudo apt install -y                         \
@@ -65,9 +55,8 @@ cd ..
 colcon build --packages-select diff_drive_robot --symlink-install
 ```
 
-### Mapping Branch
 
-To use the mapping features, clone the `mapping` branch directly:
+To use the mapping features:
 
 ```bash
 mkdir -p ros2_ws/src
@@ -98,9 +87,9 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
 ![Gazebo Simulation](assets/gazebo_mapping.png)
 
-### Mapping Branch - Mapping and Localization
+### Mapping and Localization
 
-The `mapping` branch extends the base functionality with:
+The `mapping`  extends the base functionality with:
 
 - **SLAM Toolbox**: For mapping the environment
 - **Extended Kalman Filter (EKF)**: For sensor fusion and improved odometry estimation
@@ -161,3 +150,7 @@ ros2 run nav2_map_server map_saver_cli -f ~/my_map
 ## TODO
 
 Package is still being worked on, though the core functionality is pretty much done, I will be adding some more sensors and functionalities soon.
+
+## Author
+
+Pulkit Garg | Robotics Enthusiast
