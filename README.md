@@ -8,9 +8,10 @@ Simulation for differential drive robots using ROS2 Jazzy and Gazebo Harmonic. T
 </p>
 
 
-## Work in progress
+<p align="center">
+  <img src="images/real_bot.jpeg" width="500"/>
+</p>
 
-The package is still being worked on and in development
 
 ## Supported on
 
