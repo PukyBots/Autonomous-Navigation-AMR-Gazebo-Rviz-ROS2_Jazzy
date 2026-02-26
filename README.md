@@ -8,11 +8,6 @@ Simulation for differential drive robots using ROS2 Jazzy and Gazebo Harmonic. T
 </p>
 
 
-<p align="center">
-  <img src="images/real_bot.jpeg" width="500"/>
-</p>
-
-
 ## Supported on
 
 Supported for [Ubuntu 24.04](https://releases.ubuntu.com/noble/) & [ROS2 Jazzy](https://docs.ros.org/en/jazzy/Installation.html) but compatibility with other versions has not been checked.
